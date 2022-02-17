@@ -126,6 +126,8 @@ def find_lowest_arrival(ready):
     '''
     helper function to return earliest-arrived process from the ready queue
     '''
+    if(len(ready)==0):
+        return
     # list for arrival times
     arrival = []
 
@@ -143,6 +145,8 @@ def find_shortest(ready):
     '''
     helper function to find shortest processes in ready
     '''
+    if(len(ready)==0):
+        return
     # list for burst times
     burst = []
 
@@ -157,6 +161,9 @@ def find_shortest(ready):
     return ready.pop(lowest)
 
 def find_highest_priority(ready):
+
+    if(len(ready)==0):
+        return
     priority = []
     for process in ready:
         priority.append(process.get_priority())
