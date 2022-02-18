@@ -36,11 +36,16 @@ def FCFS_scheduler(processes, ready, CPU, time, verbose = True):
                     finish = end_time,
                     priority = current_process.get_priority()))
 
+    current_process.wait_time = start_time - current_process.get_arrival_time()
+
+    current_process.turnaround_time = current_process.wait_time + end_time - start_time
+
     # print process summary
     if(verbose):
-        print('process'+ str(current_process.get_PID()) + 
-            '\tstart time: ' + str(start_time) +  
-            '\tend time: ' + str(end_time))
+        print('PID: '+ str(current_process.get_PID()) + 
+            '\t[start, end]: [' + str(start_time) + ', ' + str(end_time) + ']' +
+            '\twait : ' + str(current_process.wait_time) +
+            '\tturnaround : ' + str(current_process.turnaround_time))
 
     return time
 
@@ -75,11 +80,16 @@ def SJF_scheduler(processes, ready, CPU, time, verbose = True):
                     finish = end_time,
                     priority = current_process.get_priority()))
 
+    current_process.wait_time = start_time - current_process.get_arrival_time()
+
+    current_process.turnaround_time = current_process.wait_time + end_time - start_time
+
     # print process summary
     if(verbose):
-        print('process'+ str(current_process.get_PID()) + 
-            '\tstart time: ' + str(start_time) +  
-            '\tend time: ' + str(end_time))
+        print('PID: '+ str(current_process.get_PID()) + 
+            '\t[start, end]: [' + str(start_time) + ', ' + str(end_time) + ']' +
+            '\twait : ' + str(current_process.wait_time) +
+            '\tturnaround : ' + str(current_process.turnaround_time))
 
     return time
 
@@ -114,11 +124,16 @@ def priority_scheduler(processes, ready, CPU, time, verbose = True):
                     finish = end_time,
                     priority = current_process.get_priority()))
 
+    current_process.wait_time = start_time - current_process.get_arrival_time()
+
+    current_process.turnaround_time = current_process.wait_time + end_time - start_time
+
     # print process summary
     if(verbose):
-        print('process'+ str(current_process.get_PID()) + 
-            '\tstart time: ' + str(start_time) +  
-            '\tend time: ' + str(end_time))
+        print('PID: '+ str(current_process.get_PID()) + 
+            '\t[start, end]: [' + str(start_time) + ', ' + str(end_time) + ']' +
+            '\twait : ' + str(current_process.wait_time) +
+            '\tturnaround : ' + str(current_process.turnaround_time))
 
     return time
 
@@ -136,10 +151,23 @@ def find_lowest_arrival(ready):
         arrival.append(process.get_arrival_time())
     
     # find index of lowest arrival
-    lowest = np.argmin(np.asarray(arrival))
+    lowest = arrival[0]
+    idx = 0
+    for i in range(1, len(arrival)):
+        
+        # if a lower value is encountered
+        if(arrival[i] < lowest):
+            lowest = arrival[i]
+            idx = i
+        
+        # if an equally low value is encountered use PID
+        elif(arrival[i] == lowest):
+            if(ready[i].get_PID() < ready[idx].get_PID()):
+                lowest = arrival[i]
+                idx = i
 
     # remove and return lowest arrival
-    return ready.pop(lowest)
+    return ready.pop(idx)
 
 def find_shortest(ready):
     '''

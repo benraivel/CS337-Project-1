@@ -64,7 +64,7 @@ def kernel(scheduler, processes = None, verbose = True):
         wait_times.append(start_time -arrival_time)
         turnaround_times.append(end_time-arrival_time)
 
-
+    # print avg wait and turnaround time
     print('avg. wait time: ' + str(sum(wait_times)/len(wait_times)), '\navg. turnaround time: ' + str(sum(turnaround_times)/len(turnaround_times)))
 
     df = pd.DataFrame(CPU)
